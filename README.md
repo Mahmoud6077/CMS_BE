@@ -7,7 +7,7 @@ This is a Content Management System (CMS) website that allows users to see ready
 <h3>Getting Started:</h3>
 To get started with the CMS website, follow these steps:
 <br>
-Clone this repository to your local machine using git clone https://github.com/your-username/cms-website.git.
+Clone this repository to your local machine using git clone https://github.com/anas029/CMS_BE.git .
 Install the necessary dependencies by running npm install in both the client and server directories.
 Create a .env file in the server directory with your MongoDB database connection string and other environment variables (e.g. PORT for the server).
 Start the development server by running npm start in both the client and server directories.
