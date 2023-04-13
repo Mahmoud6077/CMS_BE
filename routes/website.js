@@ -1,4 +1,3 @@
-const express = require('express');
 const router = require("express").Router()
 const websiteCtrl = require('../controllers/website')
 const auth = require('../middleware/auth')
@@ -12,7 +11,7 @@ router.put('', auth.isAuth, websiteCtrl.website_edit_put)
 router.post('/delete', auth.isAuth, websiteCtrl.website_delete)
 router.post('', auth.isAuth, websiteCtrl.website_create_post)
 router.get('/all', auth.isAdmin, websiteCtrl.website_index_get)
-router.get('/domain', auth.isAuth, websiteCtrl.website_showByDomain_get)
-router.get('/user', auth.isAuth, websiteCtrl.website_showByUser_get)
+router.get('/domain', websiteCtrl.website_showByDomain_get)
+router.post('/user', auth.isAuth, websiteCtrl.website_showByUser_get)
 
 module.exports = router

@@ -9,7 +9,7 @@
     "start": "nodemon server"
   },
   "keywords": [],
-  "author": "Mohamed Alalwan",
+  "author": "Ali Naser, Mohamed Alalwan",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",

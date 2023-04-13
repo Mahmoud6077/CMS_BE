@@ -1,72 +1,26 @@
 const PageDetail = require('../models/PageDetail')
 
-exports.pageDetail_create_post = (req, res) => {
-    console.log(req.body);
-    pageDetail = new PageDetail(req.body)
-    pageDetail.save()
-        .then(result => { res.status(200).json(result) })
-        .catch((err) => {
-            console.log(err.message);
-            res.status(400).json({
-                "status": "error", "message": "Bad Request, Please try again later", "data": null
-            })
-        });
+exports.pageDetail_create_post = async (req, res) => {
+    // console.log(req.body);
+    let path = req.body.path
+    try {
+        let result = await PageDetail.findOneAndUpdate({ path }, req.body, { new: true })
+        if (result)
+            console.log('one', result._id)
+        else {
+            let pageDetail = new PageDetail(req.body)
+            result = await pageDetail.save()
+            console.log('two', result._id)
+        }
+        res.status(200).json(result)
+    } catch (error) {
+        console.log(error.message);
+        res.status(400).json({
+            "status": "error", "message": "Bad Request, Please try again later", "data": null
+        })
+    }
 }
-// exports.pageDetail_create_post = (req, res) => {
-//     console.log(req.body);
-//     let pageDetail = new PageDetail(req.body);
-//     PageDetail.findOne({ website: req.body.website, path: req.body.path })
-//         .then(result => {
-//             if (result) {
-//                 const pageDetailNew = { ...result, ...pageDetail }
-//                 pageDetailNew.save()
-//             } else {
-//                 pageDetail.save()
-//             }
-//             // .then(result => { res.status(200).json(result) })
-//             // .catch((err) => {
-//             //     res.status(400).json({
-//             //         "status": "error", "message": "Bad Request, Please try again later", "data": null
-//             //     })
-//             // });
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//             res.status(400).json({
-//                 "status": "error", "message": "Bad Request, Please try again later", "data": null
-//             })
-//         });
-// }
-// exports.pageDetail_show_header = (req, res) => {
-//     console.log(req);
-//     let path = req.query.path
-//     let website = req.query.website
-//     console.log(path, website);
-//     PageDetail.findOne({ website, path })
-//         .then(result => {
-//             console.log(result)
-//             res.status(200).json(result)
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//             res.status(400).json("Please try again later");
-//         });
-// }
-// exports.pageDetail_show_footer = (req, res) => {
-//     console.log(req);
-//     let path = req.query.path
-//     let website = req.query.website
-//     console.log(path, website);
-//     PageDetail.findOne({ website, path })
-//         .then(result => {
-//             console.log(result)
-//             res.status(200).json(result)
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//             res.status(400).json("Please try again later");
-//         });
-// }
+
 exports.pageDetail_show_get = (req, res) => {
     // console.log(req);
     let path = req.query.path
@@ -95,7 +49,23 @@ exports.pageDetail_update_put = (req, res) => {
         });
 }
 exports.pageDetail_delete = (req, res) => {
-    PageDetail.findByIdAndDelete(req.query.id)
+    let path = req.query.path
+    let website = req.query.website
+    PageDetail.findOneAndDelete({ website, path })
+        .then(result => {
+            console.log('Query result:', result)
+            res.status(200).json(result)
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json("Please try again later");
+        });
+}
+
+exports.pageDetail_index_get = (req, res) => {
+    let website = req.query.website
+    console.log(website);
+    PageDetail.find({ website })
         .then(result => {
             console.log(result)
             res.status(200).json(result)

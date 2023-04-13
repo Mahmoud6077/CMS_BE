@@ -69,8 +69,8 @@ exports.website_showByDomain_get = (req, res) => {
         });
 }
 exports.website_showByUser_get = (req, res) => {
-    console.log(req.query.user);
-    const owner = req.query.user
+    console.log(req.body.user);
+    const owner = req.body.user
     Website.find({ owner })
         .then(result => { res.status(200).json(result) })
         .catch((err) => {
